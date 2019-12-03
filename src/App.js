@@ -38,6 +38,10 @@ function App() {
     }
   };
 
+  const clearAction = () => {
+    setJsonToImport("");
+  };
+
   return (
     <div className="App">
       <h1>Convert to JSON from CSV</h1>
@@ -46,9 +50,14 @@ function App() {
         cssClass="Uploader-container"
         onFileLoaded={fileChange}
         parserOptions={PARSER_OPTIONS}
+        inputStyle={{ color: "green" }}
       />
-      <Button className="Button" text="Process" onClickHandler={processFile} />
-      <div>
+      <Button
+        className="Button Primary-button"
+        text="Process"
+        onClickHandler={processFile}
+      />
+      <div className="Text-container">
         <textarea
           name="jsonToImport"
           readOnly
@@ -58,6 +67,11 @@ function App() {
         ></textarea>
       </div>
       <p>Command + A, Command + C to copy</p>
+      <Button
+        className="Button Secundary-button"
+        text="Clear"
+        onClickHandler={clearAction}
+      />
     </div>
   );
 }
