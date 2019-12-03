@@ -13,16 +13,13 @@ function App() {
     setSelectedFile(data);
   };
 
-  const parseData = (
-    acummulator,
-    { user, clientKey, clientId, clientName }
-  ) => {
+  const parseData = (acummulator, { user, clientKey, id, name }) => {
     return {
       ...acummulator,
       [user]: {
         [clientKey]: {
-          clientId,
-          clientName
+          id,
+          name
         }
       }
     };
@@ -45,7 +42,7 @@ function App() {
   return (
     <div className="App">
       <h1>Convert to JSON from CSV</h1>
-      <p>File must have columns: [user, clientKey, clientId, clientName]</p>
+      <p>File must have columns: [user, clientKey, id, name]</p>
       <CSVReader
         cssClass="Uploader-container"
         onFileLoaded={fileChange}
