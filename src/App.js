@@ -28,7 +28,7 @@ function App() {
     if (selectedFile.length) {
       setJsonToImport("Proccesing...");
       const parsedFile = selectedFile.reduce(parseData, {});
-      setJsonToImport(JSON.stringify(parsedFile, null, 2));
+      setJsonToImport(JSON.stringify(parsedFile, null, "\t"));
     } else {
       setJsonToImport("File requiered!");
     }
