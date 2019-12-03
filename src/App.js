@@ -13,17 +13,16 @@ function App() {
     setSelectedFile(data);
   };
 
-  const parseData = (acummulator, { user, clientKey, id, name }) => {
-    return {
-      ...acummulator,
-      [user]: {
-        [clientKey]: {
-          id,
-          name
-        }
+  const parseData = (acummulator, { user, clientKey, id, name }) => ({
+    ...acummulator,
+    [user]: {
+      ...acummulator[user],
+      [clientKey]: {
+        id,
+        name
       }
-    };
-  };
+    }
+  });
 
   const processFile = () => {
     if (selectedFile.length) {
