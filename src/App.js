@@ -1,24 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import CSVReader from "react-csv-reader";
+import "./App.css";
+
+import Button from "./components/Button";
+import { PARSER_OPTIONS } from "./constants";
 
 function App() {
+  const [selectedFile, setSelectedFile] = useState([]);
+  const [jsonToImport, setJsonToImport] = useState("");
+
+  const fileChange = data => {
+    setSelectedFile(data);
+  };
+
+  const parseData = (
+    acummulator,
+    { user, clientKey, clientId, clientName }
+  ) => {
+    return {
+      ...acummulator,
+      [user]: {
+        [clientKey]: {
+          clientId,
+          clientName
+        }
+      }
+    };
+  };
+
+  const processFile = () => {
+    if (selectedFile.length) {
+      setJsonToImport("Proccesing...");
+      const parsedFile = selectedFile.reduce(parseData, {});
+      setJsonToImport(JSON.stringify(parsedFile, null, 2));
+    } else {
+      setJsonToImport("File requiered!");
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Convert to JSON from CSV</h1>
+      <p>File must have columns: [user, clientKey, clientId, clientName]</p>
+      <CSVReader
+        cssClass="Uploader-container"
+        onFileLoaded={fileChange}
+        parserOptions={PARSER_OPTIONS}
+      />
+      <Button className="Button" text="Process" onClickHandler={processFile} />
+      <div>
+        <textarea
+          name="jsonToImport"
+          readOnly
+          cols="80"
+          rows="40"
+          value={jsonToImport}
+        ></textarea>
+      </div>
+      <p>Command + A, Command + C to copy</p>
     </div>
   );
 }
